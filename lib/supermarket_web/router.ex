@@ -7,6 +7,8 @@ defmodule SupermarketWeb.Router do
 
   scope "/api", SupermarketWeb do
     pipe_through :api
+
+    post "/checkout", CheckoutController, :calculate
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
