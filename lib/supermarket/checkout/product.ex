@@ -15,5 +15,6 @@ defmodule Supermarket.Checkout.Product do
     product
     |> cast(attrs, [:product_code, :name, :price])
     |> validate_required([:product_code, :name, :price])
+    |> unique_constraint(:product_code)
   end
 end

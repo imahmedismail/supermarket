@@ -3,9 +3,9 @@ defmodule Supermarket.Repo.Migrations.CreateProducts do
 
   def change do
     create table(:products) do
-      add :product_code, :string
-      add :name, :string
-      add :price, :decimal
+      add :product_code, :string, null: false
+      add :name, :string, null: false
+      add :price, :decimal, null: false, scale: 2, precision: 10
 
       timestamps(type: :utc_datetime)
     end
