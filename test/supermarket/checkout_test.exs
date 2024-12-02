@@ -60,4 +60,62 @@ defmodule Supermarket.CheckoutTest do
       assert %Ecto.Changeset{} = Checkout.change_product(product)
     end
   end
+
+  describe "pricing_rules" do
+    alias Supermarket.Checkout.PricingRule
+
+    import Supermarket.CheckoutFixtures
+
+    @invalid_attrs %{product_code: nil, rule_type: nil, discount_function: nil}
+
+    test "list_pricing_rules/0 returns all pricing_rules" do
+      pricing_rule = pricing_rule_fixture()
+      assert Checkout.list_pricing_rules() == [pricing_rule]
+    end
+
+    test "get_pricing_rule!/1 returns the pricing_rule with given id" do
+      pricing_rule = pricing_rule_fixture()
+      assert Checkout.get_pricing_rule!(pricing_rule.id) == pricing_rule
+    end
+
+    test "create_pricing_rule/1 with valid data creates a pricing_rule" do
+      valid_attrs = %{product_code: "some product_code", rule_type: "some rule_type", discount_function: %{}}
+
+      assert {:ok, %PricingRule{} = pricing_rule} = Checkout.create_pricing_rule(valid_attrs)
+      assert pricing_rule.product_code == "some product_code"
+      assert pricing_rule.rule_type == "some rule_type"
+      assert pricing_rule.discount_function == %{}
+    end
+
+    test "create_pricing_rule/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Checkout.create_pricing_rule(@invalid_attrs)
+    end
+
+    test "update_pricing_rule/2 with valid data updates the pricing_rule" do
+      pricing_rule = pricing_rule_fixture()
+      update_attrs = %{product_code: "some updated product_code", rule_type: "some updated rule_type", discount_function: %{}}
+
+      assert {:ok, %PricingRule{} = pricing_rule} = Checkout.update_pricing_rule(pricing_rule, update_attrs)
+      assert pricing_rule.product_code == "some updated product_code"
+      assert pricing_rule.rule_type == "some updated rule_type"
+      assert pricing_rule.discount_function == %{}
+    end
+
+    test "update_pricing_rule/2 with invalid data returns error changeset" do
+      pricing_rule = pricing_rule_fixture()
+      assert {:error, %Ecto.Changeset{}} = Checkout.update_pricing_rule(pricing_rule, @invalid_attrs)
+      assert pricing_rule == Checkout.get_pricing_rule!(pricing_rule.id)
+    end
+
+    test "delete_pricing_rule/1 deletes the pricing_rule" do
+      pricing_rule = pricing_rule_fixture()
+      assert {:ok, %PricingRule{}} = Checkout.delete_pricing_rule(pricing_rule)
+      assert_raise Ecto.NoResultsError, fn -> Checkout.get_pricing_rule!(pricing_rule.id) end
+    end
+
+    test "change_pricing_rule/1 returns a pricing_rule changeset" do
+      pricing_rule = pricing_rule_fixture()
+      assert %Ecto.Changeset{} = Checkout.change_pricing_rule(pricing_rule)
+    end
+  end
 end

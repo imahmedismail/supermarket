@@ -19,4 +19,20 @@ defmodule Supermarket.CheckoutFixtures do
 
     product
   end
+
+  @doc """
+  Generate a pricing_rule.
+  """
+  def pricing_rule_fixture(attrs \\ %{}) do
+    {:ok, pricing_rule} =
+      attrs
+      |> Enum.into(%{
+        discount_function: %{},
+        product_code: "some product_code",
+        rule_type: "some rule_type"
+      })
+      |> Supermarket.Checkout.create_pricing_rule()
+
+    pricing_rule
+  end
 end
