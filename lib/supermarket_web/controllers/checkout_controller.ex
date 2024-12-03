@@ -8,6 +8,6 @@ defmodule SupermarketWeb.CheckoutController do
     end)
 
     total = Checkout.total(checkout)
-    json(conn, %{total: total})
+    json(conn, %{status: :ok, total: total, message: "Total calculated successfully"})
   end
 end
